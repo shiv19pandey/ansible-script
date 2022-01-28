@@ -1,0 +1,73 @@
+Ansible-playbook
+#################################
+---
+- hosts: 10.0.17.50
+  become: true
+  user: shiv
+  tasks:
+     - name: "Create ssh user"
+       user:
+         name: shiv7
+         shell: /bin/bash
+         createhome: yes
+         generate_ssh_key: yes
+         #group: shiv6
+         state: present
+
+     - copy:
+         dest: /home/shiv7/.ssh/authorized_keys
+         content: "12345680"
+         owner: shiv7
+         group: shiv7
+         mode: 0600
+##################################
+host entry
+
+[bastion]
+10.0.17.50
+
+[localhost]
+127.0.0.1
+#192.168.1.110
+############################
+Process running and start script
+#!/bin/bash
+serv=nginx
+sstat=inactive
+service $serv status | grep -i 'active\|inactive' | awk '{print $2}' | while read output;
+do
+echo $output
+if [ "$output" == "$sstat" ]; then
+    sudo service $serv start
+    echo "$serv service is UP now.!" 
+    #mailx -s "$serv service is DOWN and restarted now On $(hostname)" shiv@limeroad.com
+    else
+    echo "$serv service is running"
+    fi
+done
+##########################################
+terraform script
+provider "aws" {
+  region  = "ap-southeast-1"
+}
+terraform {
+    backend "s3" {
+       bucket = "terraform-shiv"
+       key = "terraform.tfstate"
+       region = "ap-southeast-1"
+ }
+}
+resource "aws_instance" "app_server" {
+  ami           = "ami-000834b135815bb1a"
+  instance_type = "t2.micro"
+  subnet_id     = "subnet-45071731"
+  tags = {
+    Name = "ExampleAppServerInstance"
+  }
+}
+
+.terraform.lock.hcl
+#################################
+
+
+

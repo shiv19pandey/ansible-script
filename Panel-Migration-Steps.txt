@@ -1,0 +1,58 @@
+check url ping
+than found ip
+server access than document root in vertual host
+
+in code config/Database.php  : Main DB Name, USer, Password
+Code --  api/config/Database.php : For API DB , User, Password
+ALways Consult with devloper : Ragrding DB config File.
+
+
+code transfer to new loaction 
++++++++++++++
+DB Server Access: 
+DB Full Dump
+DB Transfer new server
++++++++++++++++
+
+
+Virtual Host: Entry Copy | Create on new Server.
+SSL Entry: SSL Key,CRT,CA : Copy to new server
+++++++++++++++
+
+
+New Location:
+If Scrath Setup of Apache:--
+sudo a2enmod rewrite
+sudo a2enmod ssl
+sudo a2ensite default-ssl.conf
+systemctl reload apache2
+
+Vhost Entry Create both files.
+SSL Files desired location.
+COde Directory: 644 to all files, 755 to Directories
+
+Change DB Credentials as per requirement in Code DB COnfig File.
+
+
+apache2ctl configtest
+systemctl reload apache2
+++++++++++++++++++++
+
+New DB Server:-
+Dump unzip 
+Db create as similar to old one.
+useDB	
+Source filename.sql
+
+User list, Check grants
+GRANT privileges as required.
+
+++++++++++++++++
+From route 53 new pointing as per need.
+URL should be working.
+Follow debug rules if any issues.
+
+gw_muexam
+muTh!nk@x@meimaster
+
+
